@@ -58,6 +58,8 @@ AVAILABLE_MODELS = [
                 "tiny.en",
                 "tiny.en-q5_1",
                 "tiny.en-q8_0",
+                # Tinydiarize models
+                "small.en-tdrz",
                 ]
 PARAMS_SCHEMA = {  # as exactly presented in whisper.cpp
     'n_threads': {
@@ -169,6 +171,12 @@ PARAMS_SCHEMA = {  # as exactly presented in whisper.cpp
             'description': "overwrite the audio context size (0 = use default)",
             'options': None,
             'default': 0
+    },
+    'tdrz_enable': {
+            'type': bool,
+            'description': "enable tinydiarize speaker turn detection",
+            'options': None,
+            'default': False
     },
     'initial_prompt': {
                 'type': str,

@@ -284,6 +284,10 @@ float whisper_full_get_token_p_wrapper(struct whisper_context_wrapper * ctx, int
     return whisper_full_get_token_p(ctx->ptr, i_segment, i_token);
 }
 
+bool whisper_full_get_segment_speaker_turn_next_wrapper(struct whisper_context_wrapper * ctx, int i_segment){
+    return whisper_full_get_segment_speaker_turn_next(ctx->ptr, i_segment);
+}
+
 class WhisperFullParamsWrapper : public whisper_full_params {
     std::string initial_prompt_str;   
     std::string suppress_regex_str;      
@@ -591,6 +595,7 @@ PYBIND11_MODULE(_pywhispercpp, m) {
         .def_readwrite("split_on_word", &WhisperFullParamsWrapper::split_on_word)
         .def_readwrite("max_tokens", &WhisperFullParamsWrapper::max_tokens)
         .def_readwrite("audio_ctx", &WhisperFullParamsWrapper::audio_ctx)
+        .def_readwrite("tdrz_enable", &WhisperFullParamsWrapper::tdrz_enable)
         .def_property("suppress_regex",
             [](WhisperFullParamsWrapper &self) {
                 return py::str(self.suppress_regex ? self.suppress_regex : "");
@@ -666,6 +671,8 @@ PYBIND11_MODULE(_pywhispercpp, m) {
                                                                                 "This contains probabilities, timestamps, etc.");
 
     m.def("whisper_full_get_token_p", &whisper_full_get_token_p_wrapper, "Get the probability of the specified token in the specified segment.");
+
+    m.def("whisper_full_get_segment_speaker_turn_next", &whisper_full_get_segment_speaker_turn_next_wrapper, "Get whether the specified segment starts a new speaker turn (tinydiarize).");
 
     ////////////////////////////////////////////////////////////////////////////
 
